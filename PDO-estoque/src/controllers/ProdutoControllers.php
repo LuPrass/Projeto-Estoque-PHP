@@ -1,26 +1,27 @@
 <?php
 require_once __DIR__ . '/../class/Produto.php';
 
-class ProdutoController{
+class ProdutoController {
     private $produto;
 
-    public function __construct($pdo){
+    public function __construct($pdo) {
         $this->produto = new Produto($pdo);
     }
 
-    public function index(){
-       return $this->produto->read(); 
+    public function index() {
+        return $this->produto->read();
     }
 
-    public function create($name,$categoria){
-        $this->produto->create($name,$categoria);  
+    public function create($nome, $categoria, $id_fornecedor) {
+        $this->produto->create($nome, $categoria, $id_fornecedor);  
     }
-    public function update ($id_produto,$name,$categoria){
-        $this->produto->update($id_produto,$name,$categoria);
+
+    public function update($id_produto, $nome, $categoria, $id_fornecedor) {
+        $this->produto->update($id_produto, $nome, $categoria, $id_fornecedor);
     }
-    public function delete ($id_produto){
+
+    public function delete($id_produto) {
         $this->produto->delete($id_produto);
     }
-
 }
 ?>
