@@ -16,12 +16,12 @@ class ClienteController {
         $this->cliente->create($nome, $email, $cpf);  
     }
 
-    public function update($id, $nome, $email, $cpf) {
-        $this->cliente->update($id, $nome, $email, $cpf);
-    }
+    public function update($id_cliente, $nome, $email, $cpf) {
+    $this->cliente->update($id_cliente, $nome, $email, $cpf);
+}
 
-    public function delete($id) {
-        $this->cliente->delete($id);
-    }
+public function delete($id_cliente) {
+    $this->cliente->delete($id_cliente);
+}   
 }
 ?>

@@ -41,7 +41,8 @@ class Cliente {
     }
 
     // CRUD
-    public function create($nome, $email, $cpf) {
+   public function create($nome, $email, $cpf) {
+    try {
         $sql = "INSERT INTO cliente (nome, email, cpf) VALUES (:nome, :email, :cpf)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([
@@ -49,7 +50,15 @@ class Cliente {
             'email' => $email,
             'cpf'   => $cpf
         ]);
+    } catch (PDOException $e) {
+        if ($e->getCode() == 23000) {
+            // Trata o erro de duplicidade graciosamente
+            echo "Erro: Já existe um cliente cadastrado com este e-mail ou CPF.";
+        } else {
+            throw $e;
+        }
     }
+}
 
     public function read() {
         $sql = "SELECT * FROM cliente";
@@ -57,20 +66,20 @@ class Cliente {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function update($id, $nome, $email, $cpf) {
-        $sql = "UPDATE cliente SET nome = :nome, email = :email, cpf = :cpf WHERE id = :id";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([
-            'nome'  => $nome,
-            'email' => $email,
-            'cpf'   => $cpf,
-            'id'    => $id
-        ]);
-    }
+    public function update($id_cliente, $nome, $email, $cpf) {
+    $sql = "UPDATE cliente SET nome = :nome, email = :email, cpf = :cpf WHERE id_cliente = :id_cliente";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([
+        'nome'       => $nome,
+        'email'      => $email,
+        'cpf'        => $cpf,
+        'id_cliente' => $id_cliente
+    ]);
+}
 
-    public function delete($id) {
-        $sql = "DELETE FROM cliente WHERE id = :id";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['id' => $id]);
-    }
+public function delete($id_cliente) {
+    $sql = "DELETE FROM cliente WHERE id_cliente = :id_cliente";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute(['id_cliente' => $id_cliente]);
+}
 }
